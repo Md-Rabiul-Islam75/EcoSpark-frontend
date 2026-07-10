@@ -10,6 +10,7 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  console.log('AdminDashboardPage rendered');
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
