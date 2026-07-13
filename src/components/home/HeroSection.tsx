@@ -1,37 +1,50 @@
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 text-white py-32 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-green-500 opacity-10 rounded-full -mr-48 -mt-48"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-600 opacity-10 rounded-full -ml-48 -mb-48"></div>
-      
-      <div className="container mx-auto px-4 text-center relative z-10">
-        <div className="mb-6 inline-block">
-          <span className="bg-white/20 text-white px-6 py-2 rounded-full text-sm font-semibold backdrop-blur">
-            ✨ Welcome to EcoSpark Hub
-          </span>
-        </div>
-        
-        <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
-          Share Your <span className="text-green-200">Sustainability</span> Ideas
+    <section className="relative overflow-hidden bg-[#16281F]">
+      {/* organic backdrop shapes */}
+      <div className="pointer-events-none absolute -top-32 -right-20 h-96 w-96 rounded-full bg-[#4F7A5A] opacity-20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-[#E3A23D] opacity-10 blur-3xl" />
+
+      {/* spark trail — signature element: a scattering of small marks that
+          suggest ideas catching and spreading */}
+      <div className="pointer-events-none absolute inset-0 hidden sm:block" aria-hidden="true">
+        <span className="absolute left-[12%] top-[22%] h-2 w-2 rounded-full bg-[#E3A23D]/70" />
+        <span className="absolute left-[20%] top-[62%] h-1.5 w-1.5 rounded-full bg-[#E3A23D]/50" />
+        <span className="absolute right-[16%] top-[30%] h-2.5 w-2.5 rounded-full bg-[#E3A23D]/60" />
+        <span className="absolute right-[24%] top-[70%] h-1.5 w-1.5 rounded-full bg-[#7FA687]/70" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-8 py-24 sm:py-32 md:py-36 text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#2A4232] bg-[#1E3328] px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#E3A23D]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E3A23D]" />
+          Welcome to EcoSpark Hub
+        </span>
+
+        <h1
+          className="mt-7 text-[2.75rem] leading-[1.08] sm:text-6xl md:text-7xl font-bold text-white"
+          style={{ fontFamily: 'var(--font-fraunces, serif)' }}
+        >
+          Share your{' '}
+          <span className="italic text-[#7FA687]">sustainability</span> ideas
         </h1>
-        
-        <p className="text-xl md:text-2xl mb-10 text-green-50 max-w-3xl mx-auto leading-relaxed">
-          Help build a better, greener future for everyone. Share innovative ideas, collaborate with community members, and make a real impact on sustainability.
+
+        <p className="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-[#B9C4BB]">
+          Help build a better, greener future for everyone. Share innovative ideas,
+          collaborate with community members, and make a real impact.
         </p>
-        
-        <div className="flex gap-6 justify-center flex-wrap">
+
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a
             href="/ideas"
-            className="bg-white text-green-700 px-8 py-4 rounded-lg font-bold hover:bg-green-50 transition duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform"
+            className="w-full sm:w-auto rounded-tl-2xl rounded-br-2xl rounded-tr-md rounded-bl-md bg-[#E3A23D] px-8 py-4 text-base font-bold text-[#16281F] shadow-lg shadow-black/20 hover:bg-[#EEB35A] hover:-translate-y-0.5 transition-all duration-200"
           >
-            🚀 Explore Ideas
+            Explore Ideas
           </a>
           <a
             href="/register"
-            className="bg-green-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-900 transition duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform border-2 border-white/30"
+            className="w-full sm:w-auto rounded-tl-2xl rounded-br-2xl rounded-tr-md rounded-bl-md border border-[#3A5642] bg-transparent px-8 py-4 text-base font-bold text-white hover:bg-[#1E3328] hover:-translate-y-0.5 transition-all duration-200"
           >
-            ✍️ Get Started
+            Get Started
           </a>
         </div>
       </div>

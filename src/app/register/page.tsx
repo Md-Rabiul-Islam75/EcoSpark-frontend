@@ -39,61 +39,127 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">Create Account</h1>
+    <div className="min-h-screen flex bg-[#F1F4EC]">
+      {/* Brand panel — hidden on mobile */}
+      <div className="relative hidden lg:flex lg:w-1/2 flex-col justify-between overflow-hidden bg-[#16281F] px-14 py-14">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-[#E3A23D] opacity-10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -right-16 h-80 w-80 rounded-full bg-[#4F7A5A] opacity-20 blur-3xl" />
+        <span className="absolute right-[20%] top-[26%] h-2 w-2 rounded-full bg-[#E3A23D]/60" aria-hidden="true" />
+        <span className="absolute left-[24%] top-[64%] h-2.5 w-2.5 rounded-full bg-[#7FA687]/60" aria-hidden="true" />
 
-        {error && <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">{error}</div>}
+        <Link href="/" className="relative z-10 flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-tl-xl rounded-br-xl rounded-tr-md rounded-bl-md bg-[#E3A23D] text-[#16281F] text-lg">
+            🌱
+          </span>
+          <span
+            className="text-2xl font-bold text-white"
+            style={{ fontFamily: 'var(--font-fraunces, serif)' }}
+          >
+            EcoSpark
+          </span>
+        </Link>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Full Name"
-            type="text"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
-            required
-          />
-          <Input
-            label="Email"
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            required
-          />
-          <Input
-            label="Password"
-            type="password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            required
-          />
-          <Input
-            label="Confirm Password"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, confirmPassword: e.target.value })
-            }
-            required
-          />
+        <div className="relative z-10 max-w-md">
+          <h2
+            className="text-4xl font-bold leading-tight text-white"
+            style={{ fontFamily: 'var(--font-fraunces, serif)' }}
+          >
+            Bring your <span className="italic text-[#7FA687]">idea</span> to the table
+          </h2>
+          <p className="mt-4 text-[#B9C4BB] leading-relaxed">
+            Join a growing community of environmental innovators sharing ideas that
+            spark real change.
+          </p>
+        </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? 'Creating Account...' : 'Sign Up'}
-          </Button>
-        </form>
-
-        <p className="mt-4 text-center text-gray-600">
-          Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Log in
-          </Link>
+        <p className="relative z-10 text-sm text-[#7C8A7F]">
+          &copy; {new Date().getFullYear()} EcoSpark Hub
         </p>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center px-5 py-12 sm:px-8">
+        <div className="w-full max-w-md">
+          <div className="mb-8 lg:hidden flex items-center gap-2">
+            <span className="flex h-9 w-9 items-center justify-center rounded-tl-xl rounded-br-xl rounded-tr-md rounded-bl-md bg-[#E3A23D] text-[#16281F] text-lg">
+              🌱
+            </span>
+            <span
+              className="text-2xl font-bold text-[#16281F]"
+              style={{ fontFamily: 'var(--font-fraunces, serif)' }}
+            >
+              EcoSpark
+            </span>
+          </div>
+
+          <h1
+            className="text-3xl sm:text-[2.25rem] font-bold text-[#1C2620]"
+            style={{ fontFamily: 'var(--font-fraunces, serif)' }}
+          >
+            Create your account
+          </h1>
+          <p className="mt-2 text-[#6B7A70]">Start sharing ideas in minutes.</p>
+
+          {error && (
+            <div className="mt-6 rounded-lg border border-[#E8B9B2] bg-[#FBEDEB] px-4 py-3 text-sm font-medium text-[#B0473C]">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <Input
+              label="Full Name"
+              type="text"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              required
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              required
+            />
+            <Input
+              label="Password"
+              type="password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              required
+            />
+            <Input
+              label="Confirm Password"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={(e) =>
+                setFormData({ ...formData, confirmPassword: e.target.value })
+              }
+              required
+            />
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full !rounded-tl-xl !rounded-br-xl !rounded-tr-md !rounded-bl-md !bg-[#16281F] hover:!bg-[#1E3328] !py-3.5 !font-bold"
+            >
+              {loading ? 'Creating Account...' : 'Sign Up'}
+            </Button>
+          </form>
+
+          <p className="mt-7 text-center text-sm text-[#6B7A70]">
+            Already have an account?{' '}
+            <Link href="/login" className="font-semibold text-[#4F7A5A] hover:text-[#16281F] transition-colors">
+              Log in
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

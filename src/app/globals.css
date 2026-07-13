@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 * {
   margin: 0;
@@ -26,11 +24,6 @@ code {
     monospace;
 }
 
-/* Custom utilities */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .line-clamp-1 {
   display: -webkit-box;
