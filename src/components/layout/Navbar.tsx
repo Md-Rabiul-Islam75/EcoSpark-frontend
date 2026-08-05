@@ -13,7 +13,10 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-[#16281F] border-b border-[#2A4232]">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div
+        className="mx-auto w-full max-w-[1400px]"
+        style={{ paddingLeft: 'max(24px, 4vw)', paddingRight: 'max(24px, 4vw)' }}
+      >
         <div className="flex h-[68px] items-center justify-between">
           {/* Logo */}
           <Link
@@ -127,7 +130,10 @@ export default function Navbar() {
           mobileOpen ? 'max-h-[26rem]' : 'max-h-0 border-t-0'
         }`}
       >
-        <div className="flex flex-col gap-1 px-5 py-4">
+        <div
+          className="flex flex-col gap-1 py-4"
+          style={{ paddingLeft: 'max(24px, 4vw)', paddingRight: 'max(24px, 4vw)' }}
+        >
           <Link onClick={() => setMobileOpen(false)} href="/ideas" className="rounded-lg px-3 py-3 text-[15px] font-medium text-[#E9EDE7] hover:bg-[#2A4232]">Ideas</Link>
           <Link onClick={() => setMobileOpen(false)} href="/blog" className="rounded-lg px-3 py-3 text-[15px] font-medium text-[#E9EDE7] hover:bg-[#2A4232]">Blog</Link>
           <Link onClick={() => setMobileOpen(false)} href="/about" className="rounded-lg px-3 py-3 text-[15px] font-medium text-[#E9EDE7] hover:bg-[#2A4232]">About</Link>

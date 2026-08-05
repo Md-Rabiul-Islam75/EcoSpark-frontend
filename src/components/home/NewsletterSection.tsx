@@ -29,10 +29,10 @@ export default function NewsletterSection() {
 
   return (
     <section className="relative overflow-hidden bg-[#1E3328] py-20 sm:py-24">
-      <div className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 h-64 w-[36rem] rounded-full bg-[#E3A23D] opacity-[0.07] blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-xl -translate-x-1/2 rounded-full bg-[#E3A23D] opacity-[0.07] blur-3xl" />
 
-      <div className="relative z-10 mx-auto max-w-xl px-5 sm:px-8 text-center">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-tl-2xl rounded-br-2xl rounded-tr-md rounded-bl-md bg-[#E3A23D]/15 text-2xl">
+      <div className="relative z-10 mx-auto max-w-2xl px-5 text-center sm:px-8">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-bl-md rounded-br-2xl rounded-tl-2xl rounded-tr-md bg-[#E3A23D]/15 text-2xl">
           📧
         </span>
 
@@ -48,7 +48,7 @@ export default function NewsletterSection() {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-9 flex flex-col sm:flex-row gap-3"
+          className="mt-9 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]"
         >
           <input
             type="email"
@@ -56,13 +56,13 @@ export default function NewsletterSection() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email..."
             required
-            className="flex-1 rounded-lg border border-[#3A5642] bg-[#16281F] px-5 py-3.5 text-white placeholder:text-[#7C8A7F] focus:outline-none focus:ring-2 focus:ring-[#E3A23D] transition-shadow"
+            className="h-14 rounded-2xl border border-[#3A5642] bg-[#16281F] px-5 text-base text-white placeholder:text-[#7C8A7F] transition-shadow focus:outline-none focus:ring-2 focus:ring-[#E3A23D]"
           />
           <Button
             type="submit"
             disabled={loading}
             variant="secondary"
-            className="whitespace-nowrap !rounded-tl-lg !rounded-br-lg !rounded-tr-md !rounded-bl-md !bg-[#E3A23D] !text-[#16281F] !font-bold hover:!bg-[#EEB35A] px-7 py-3.5"
+            className="h-14 w-full min-w-42.5 whitespace-nowrap rounded-2xl bg-[#E3A23D]! px-7! font-bold! text-[#16281F]! hover:bg-[#EEB35A]! sm:w-auto!"
           >
             {loading ? 'Subscribing...' : 'Subscribe'}
           </Button>

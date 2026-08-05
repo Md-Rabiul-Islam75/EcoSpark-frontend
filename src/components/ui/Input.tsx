@@ -1,24 +1,58 @@
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+import React from 'react';
+
+interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
 
-export default function Input({ label, error, ...props }: InputProps) {
+export default function Input({
+  label,
+  error,
+  className = '',
+  ...props
+}: InputProps) {
   return (
-    <div className="flex flex-col">
+    <div className="w-full">
       {label && (
-        <label className="mb-2 font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-semibold text-[#24352C]">
           {label}
-          {props.required && <span className="text-red-600"> *</span>}
+          {props.required && (
+            <span className="text-red-500"> *</span>
+          )}
         </label>
       )}
+
       <input
-        className={`px-4 py-2 border rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 ${
-          error ? 'border-red-500' : 'border-gray-300'
-        }`}
         {...props}
+        className={`
+          w-full
+          rounded-xl
+          border
+          bg-white
+          border-gray-300
+          px-4
+          py-3
+          text-base
+          text-gray-900
+          placeholder:text-gray-400
+          transition-all
+          duration-200
+          outline-none
+          focus:border-[#4F7A5A]
+          focus:ring-4
+          focus:ring-[#4F7A5A]/20
+          disabled:bg-gray-100
+          ${error ? 'border-red-500' : ''}
+          ${className}
+        `}
       />
-      {error && <span className="mt-1 text-sm text-red-600">{error}</span>}
+
+      {error && (
+        <p className="mt-2 text-sm text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -41,9 +43,9 @@ export default function Footer() {
               Legal
             </h4>
             <ul className="space-y-3.5 text-sm">
-              <li><a href="#" className={linkClass}>Terms of Use</a></li>
-              <li><a href="#" className={linkClass}>Privacy Policy</a></li>
-              <li><a href="#" className={linkClass}>Cookie Policy</a></li>
+              <li><Link href="/terms-of-use" className={linkClass}>Terms of Use</Link></li>
+              <li><Link href="/privacy-policy" className={linkClass}>Privacy Policy</Link></li>
+              <li><Link href="/cookie-policy" className={linkClass}>Cookie Policy</Link></li>
             </ul>
           </div>
 
