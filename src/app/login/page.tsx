@@ -1,14 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { login } from '@/lib/api';
+import { useAuth } from '@/providers/AuthProvider';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login: setAuthUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -24,17 +27,13 @@ export default function LoginPage() {
     try {
       const response = await login(formData.email, formData.password);
       const responseData = response.data?.data || response.data;
-      // Save token to localStorage
-      localStorage.setItem('accessToken', responseData.accessToken);
-      localStorage.setItem('refreshToken', responseData.refreshToken);
-      localStorage.setItem('user', JSON.stringify(responseData.user));
+      setAuthUser(responseData.user, responseData.accessToken, responseData.refreshToken);
 
-      // Redirect to dashboard or home
-      if (responseData.user?.role === 'ADMIN') {
-        router.push('/admin/dashboard');
-      } else {
-        router.push('/dashboard');
-      }
+      const redirectTo = searchParams.get('next');
+      const fallbackRoute = responseData.user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
+      const targetRoute = redirectTo?.startsWith('/') ? redirectTo : fallbackRoute;
+
+      router.replace(targetRoute);
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'Login failed');
     } finally {
@@ -133,7 +132,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full !rounded-tl-xl !rounded-br-xl !rounded-tr-md !rounded-bl-md !bg-[#16281F] hover:!bg-[#1E3328] !py-3.5 !font-bold"
+              className="w-full rounded-tl-xl! rounded-br-xl! rounded-tr-md! rounded-bl-md! bg-[#16281F]! hover:bg-[#1E3328]! py-3.5! font-bold!"
             >
               {loading ? 'Logging in...' : 'Log In'}
             </Button>

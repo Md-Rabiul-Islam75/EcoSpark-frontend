@@ -13,20 +13,28 @@ export default function UserDashboard({ user }: UserDashboardProps) {
   const [ideas, setIdeas] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchStats() {
       try {
-        const [statsData, ideasData] = await Promise.all([
-          getUserStats(),
-          getUserIdeas(1, 5),
-        ]);
-        setStats(statsData);
-        setIdeas(ideasData.data);
+        const response = await getUserStats();
+        const responseData = response.data?.data || response.data;
+        setStats(responseData);
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        console.error('Failed to fetch user stats:', error);
       }
     }
 
-    fetchData();
+    async function fetchIdeas() {
+      try {
+        const response = await getUserIdeas(1, 5);
+        const responseData = response.data?.data || response.data;
+        setIdeas(responseData.items || responseData.data || []);
+      } catch (error) {
+        console.error('Failed to fetch user ideas:', error);
+      }
+    }
+
+    fetchStats();
+    fetchIdeas();
   }, []);
 
   return (

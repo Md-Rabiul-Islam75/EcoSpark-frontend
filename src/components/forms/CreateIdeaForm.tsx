@@ -55,9 +55,11 @@ export default function CreateIdeaForm({
   }
 
   return (
-    <form className="space-y-6 bg-white p-6 rounded-lg shadow">
+    <form className="space-y-6 rounded-[28px] bg-white p-0">
       {error && (
-        <div className="p-4 bg-red-100 text-red-700 rounded">{error}</div>
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          {error}
+        </div>
       )}
 
       <Input
@@ -79,7 +81,7 @@ export default function CreateIdeaForm({
             setFormData({ ...formData, categoryId: e.target.value })
           }
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full rounded-2xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
         >
           <option value="">Select a category</option>
           {categories.map((cat) => (
@@ -100,7 +102,7 @@ export default function CreateIdeaForm({
             setFormData({ ...formData, problemStatement: e.target.value })
           }
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
           rows={3}
         />
       </div>
@@ -115,7 +117,7 @@ export default function CreateIdeaForm({
             setFormData({ ...formData, proposedSolution: e.target.value })
           }
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
           rows={3}
         />
       </div>
@@ -130,24 +132,27 @@ export default function CreateIdeaForm({
             setFormData({ ...formData, description: e.target.value })
           }
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
           rows={5}
         />
       </div>
 
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          id="isPaid"
-          checked={formData.isPaid}
-          onChange={(e) =>
-            setFormData({ ...formData, isPaid: e.target.checked })
-          }
-          className="mr-2"
-        />
-        <label htmlFor="isPaid" className="text-gray-700">
-          Make this a paid idea
-        </label>
+      <div className="rounded-2xl border border-[#E7ECE5] bg-[#F8FAF5] p-4">
+        <div className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            id="isPaid"
+            checked={formData.isPaid}
+            onChange={(e) =>
+              setFormData({ ...formData, isPaid: e.target.checked })
+            }
+            className="mt-1 h-4 w-4 rounded border-gray-300 text-[#4F7A5A] focus:ring-[#4F7A5A]"
+          />
+          <label htmlFor="isPaid" className="text-gray-700">
+            <span className="block font-semibold text-[#16281F]">Make this a paid idea</span>
+            <span className="mt-1 block text-sm text-[#6B7A70]">Use this for premium ideas that require payment access.</span>
+          </label>
+        </div>
       </div>
 
       {formData.isPaid && (
@@ -163,12 +168,13 @@ export default function CreateIdeaForm({
         />
       )}
 
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <Button
           type="submit"
           onClick={(e) => handleSubmit(e, false)}
           disabled={loading}
           variant="outline"
+          className="rounded-2xl px-6 py-3"
         >
           Save as Draft
         </Button>
@@ -176,6 +182,7 @@ export default function CreateIdeaForm({
           type="submit"
           onClick={(e) => handleSubmit(e, true)}
           disabled={loading}
+          className="rounded-2xl px-6 py-3"
         >
           {loading ? 'Creating...' : 'Submit for Review'}
         </Button>

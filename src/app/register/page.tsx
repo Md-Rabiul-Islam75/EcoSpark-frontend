@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { register } from '@/lib/api';
+import { useAuth } from '@/providers/AuthProvider';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { login: setAuthUser } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,9 +34,7 @@ export default function RegisterPage() {
 
       const responseData = response.data?.data || response.data;
 
-      localStorage.setItem('accessToken', responseData.accessToken);
-      localStorage.setItem('refreshToken', responseData.refreshToken);
-      localStorage.setItem('user', JSON.stringify(responseData.user));
+      setAuthUser(responseData.user, responseData.accessToken, responseData.refreshToken);
 
       router.push('/dashboard');
     } catch (err: any) {
@@ -56,9 +56,9 @@ export default function RegisterPage() {
 
         {/* Background Effects */}
 
-        <div className="absolute -top-40 -left-32 h-[420px] w-[420px] rounded-full bg-[#E3A23D] opacity-10 blur-[120px]" />
+        <div className="absolute -top-40 -left-32 h-105 w-105 rounded-full bg-[#E3A23D] opacity-10 blur-[120px]" />
 
-        <div className="absolute -bottom-44 right-0 h-[400px] w-[400px] rounded-full bg-[#4F7A5A] opacity-20 blur-[120px]" />
+        <div className="absolute -bottom-44 right-0 h-100 w-100 rounded-full bg-[#4F7A5A] opacity-20 blur-[120px]" />
 
         <span className="absolute left-[18%] top-[25%] h-2 w-2 rounded-full bg-[#E3A23D]" />
 

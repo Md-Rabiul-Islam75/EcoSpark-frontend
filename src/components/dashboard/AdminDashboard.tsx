@@ -74,7 +74,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   By: {idea.author.name} • {new Date(idea.createdAt).toLocaleDateString()}
                 </div>
                 <Link
-                  href={`/admin/ideas/${idea.id}`}
+                  href={`/admin/ideas?ideaId=${idea.id}`}
                   className="text-green-600 hover:underline text-sm"
                 >
                   Review →

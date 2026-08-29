@@ -67,7 +67,7 @@ export const getIdea = (ideaId: string) => api.get(`/ideas/${ideaId}`);
 export const createIdea = (data: any) => api.post('/ideas', data);
 export const updateIdea = (ideaId: string, data: any) => api.patch(`/ideas/${ideaId}`, data);
 export const deleteIdea = (ideaId: string) => api.delete(`/ideas/${ideaId}`);
-export const submitIdea = (ideaId: string) => api.post(`/ideas/${ideaId}/submit`);
+export const submitIdea = (ideaId: string) => api.patch(`/ideas/${ideaId}/submit`);
 export const getUserIdeas = (page: number = 1, limit: number = 10) =>
   api.get('/ideas/user', { params: { page, limit } });
 
@@ -129,7 +129,7 @@ export const featureIdea = (ideaId: string) =>
   api.post(`/admin/ideas/${ideaId}/feature`);
 export const getDashboardStats = () => api.get('/admin/stats');
 export const getTopVotedIdeas = (limit: number = 5) =>
-  api.get('/admin/top-ideas', { params: { limit } });
+  api.get('/ideas', { params: { page: 1, limit, sortBy: 'topVoted' } });
 export const getAllUsers = (page: number = 1, limit: number = 20) =>
   api.get('/admin/users', { params: { page, limit } });
 export const deactivateUser = (userId: string) =>
