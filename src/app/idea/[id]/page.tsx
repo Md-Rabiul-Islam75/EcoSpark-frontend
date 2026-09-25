@@ -41,10 +41,10 @@ export default function IdeaDetailsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
         <div className="lg:col-span-2">
           <IdeaContent idea={idea} />
-          <CommentSection ideaId={ideaId} />
+          <CommentSection ideaId={idea.id} />
         </div>
         <aside className="lg:col-span-1 space-y-6">
-          <VotingSection ideaId={ideaId} votes={idea._count.votes} />
+          <VotingSection ideaId={idea.id} votes={idea._count.votes} />
           {idea.isPaid && <PaymentSection idea={idea} />}
         </aside>
       </div>

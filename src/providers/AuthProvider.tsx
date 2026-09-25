@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { getUser } from '@/lib/api';
 
 interface User {
   id: string;
@@ -28,7 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Load user from localStorage on mount
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
@@ -37,7 +37,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Failed to parse stored user:', error);
       }
     }
-    setIsLoading(false);
+
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      setIsLoading(false);
+      return;
+    }
+
+    async function syncUser() {
+      try {
+        const response = await getUser();
+        const currentUser = response.data?.data || response.data;
+        setUser(currentUser);
+        localStorage.setItem('user', JSON.stringify(currentUser));
+      } catch {
+        setUser(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    syncUser();
   }, []);
 
   const login = (userData: User, accessToken: string, refreshToken: string) => {

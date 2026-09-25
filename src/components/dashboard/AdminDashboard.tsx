@@ -19,8 +19,10 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           getDashboardStats(),
           getAllIdeas(1, 5, { status: 'UNDER_REVIEW' }),
         ]);
-        setStats(statsData);
-        setPendingIdeas(ideasData.data);
+        const statsResponse = statsData.data?.data || statsData.data;
+        const ideasResponse = ideasData.data?.data || ideasData.data;
+        setStats(statsResponse);
+        setPendingIdeas(ideasResponse.items || ideasResponse);
       } catch (error) {
         console.error('Failed to fetch admin data:', error);
       }

@@ -13,6 +13,8 @@ interface VotingSectionProps {
 export default function VotingSection({ ideaId, votes }: VotingSectionProps) {
   const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [voteCount, setVoteCount] = useState(votes);
+  const [error, setError] = useState('');
 
   async function handleVote(type: 'UP' | 'DOWN') {
     if (!isAuthenticated) {
@@ -21,12 +23,13 @@ export default function VotingSection({ ideaId, votes }: VotingSectionProps) {
     }
 
     setLoading(true);
+    setError('');
     try {
-      await voteIdea(ideaId, type);
-      // Refresh page or update state
-      window.location.reload();
-    } catch (error) {
-      console.error('Failed to vote:', error);
+      const response = await voteIdea(ideaId, type);
+      const responseData = response.data?.data || response.data;
+      setVoteCount(responseData.totalVotes ?? voteCount);
+    } catch {
+      setError('Unable to record your vote. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -38,7 +41,7 @@ export default function VotingSection({ ideaId, votes }: VotingSectionProps) {
 
       <div className="space-y-3">
         <div className="text-center py-4 bg-gray-100 rounded">
-          <div className="text-4xl font-bold text-green-600">{votes}</div>
+          <div className="text-4xl font-bold text-green-600">{voteCount}</div>
           <div className="text-sm text-gray-600">Total Votes</div>
         </div>
 
@@ -58,6 +61,7 @@ export default function VotingSection({ ideaId, votes }: VotingSectionProps) {
         >
           👎 Downvote
         </Button>
+        {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
     </div>
   );

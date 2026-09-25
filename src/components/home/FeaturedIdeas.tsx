@@ -14,7 +14,7 @@ export default function FeaturedIdeas() {
       try {
         const response = await getApprovedIdeas(1, 6, { sortBy: 'topVoted' });
         const responseData = response.data?.data || response.data;
-        setIdeas(responseData.data || responseData);
+        setIdeas(responseData.items || []);
       } catch (error) {
         console.error('Failed to fetch ideas:', error);
       } finally {

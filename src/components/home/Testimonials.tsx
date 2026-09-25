@@ -11,7 +11,7 @@ export default function Testimonials() {
       try {
         const response = await getTopVotedIdeas(3);
         const responseData = response.data?.data || response.data;
-        setTopIdeas(Array.isArray(responseData) ? responseData : responseData.data || []);
+        setTopIdeas(responseData.items || []);
       } catch (error) {
         console.error('Failed to fetch top ideas:', error);
       }
@@ -59,7 +59,7 @@ export default function Testimonials() {
                     👍 {idea._count?.votes || 0} votes
                   </span>
                   <a
-                    href={`/idea/${idea.id}`}
+                    href={`/idea/${idea.slug}`}
                     className="font-semibold text-[#16281F] group-hover:text-[#E3A23D] transition-colors"
                   >
                     View →
@@ -69,7 +69,7 @@ export default function Testimonials() {
             ))
           ) : (
             <div className="col-span-full rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg border border-dashed border-[#C9D3C4] px-6 py-16 text-center text-[#6B7A70]">
-              Loading top ideas...
+              No approved ideas have votes yet.
             </div>
           )}
         </div>

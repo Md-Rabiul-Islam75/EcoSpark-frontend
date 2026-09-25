@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
           <nav className="space-y-2">
             <Link
-              href="/dashboard"
+              href={user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard'}
               className="block px-4 py-2 rounded hover:bg-gray-700"
             >
               📊 Overview

@@ -46,6 +46,13 @@ export default function ProfilePage() {
         const statsData = statsResponse.data?.data || statsResponse.data;
 
         setProfile(profileData);
+        updateUser({
+          id: profileData.id,
+          name: profileData.name,
+          email: profileData.email,
+          role: profileData.role,
+          profileImage: profileData.profileImage || undefined,
+        });
         setStats(statsData);
         setFormData({
           name: profileData.name || '',
@@ -233,7 +240,7 @@ export default function ProfilePage() {
               </button>
               <button
                 type="button"
-                onClick={() => router.push('/dashboard')}
+                onClick={() => router.push(profile.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard')}
                 className="rounded-2xl border border-[#DCE4D8] px-6 py-3 font-semibold text-[#16281F] transition hover:bg-[#F8FAF5]"
               >
                 Back to Dashboard
@@ -266,7 +273,7 @@ export default function ProfilePage() {
             <div className="rounded-3xl border border-[#E7ECE5] bg-[#16281F] p-6 text-white shadow-sm">
               <h3 className="text-lg font-bold">Quick Links</h3>
               <div className="mt-4 space-y-3 text-sm">
-                <button onClick={() => router.push('/dashboard')} className="block text-left text-[#E3A23D] hover:text-white">
+                <button onClick={() => router.push(profile.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard')} className="block text-left text-[#E3A23D] hover:text-white">
                   View dashboard
                 </button>
                 <button onClick={() => router.push('/create-idea')} className="block text-left text-[#E3A23D] hover:text-white">

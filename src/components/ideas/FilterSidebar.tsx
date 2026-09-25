@@ -73,7 +73,7 @@ export default function FilterSidebar({
         >
           <option value="">All Categories</option>
           {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
+            <option key={cat.id} value={cat.slug}>
               {cat.name}
             </option>
           ))}

@@ -73,17 +73,22 @@ export const getUserIdeas = (page: number = 1, limit: number = 10) =>
 
 // Category APIs
 export const getCategories = () => api.get('/categories');
+export const createCategory = (data: { name: string; description?: string }) =>
+  api.post('/categories', data);
+export const updateCategory = (categoryId: string, data: { name?: string; description?: string }) =>
+  api.patch(`/categories/${categoryId}`, data);
+export const deleteCategory = (categoryId: string) => api.delete(`/categories/${categoryId}`);
 export const getCategory = (slug: string, page: number = 1, limit: number = 12) =>
   api.get(`/categories/${slug}`, { params: { page, limit } });
 
 // Vote APIs
 export const voteIdea = (ideaId: string, voteType: 'UP' | 'DOWN') =>
-  api.post(`/ideas/${ideaId}/vote`, { type: voteType });
+  api.post(`/ideas/${ideaId}/votes`, { type: voteType });
 export const getVotes = (ideaId: string) => api.get(`/ideas/${ideaId}/votes`);
 
 // Comment APIs
 export const createComment = (ideaId: string, content: string, parentId?: string) =>
-  api.post('/comments', { ideaId, content, parentId });
+  api.post(`/ideas/${ideaId}/comments`, { content, parentId });
 export const getComments = (ideaId: string, page: number = 1, limit: number = 10) =>
   api.get(`/ideas/${ideaId}/comments`, { params: { page, limit } });
 export const updateComment = (commentId: string, content: string) =>
@@ -132,7 +137,9 @@ export const getTopVotedIdeas = (limit: number = 5) =>
   api.get('/ideas', { params: { page: 1, limit, sortBy: 'topVoted' } });
 export const getAllUsers = (page: number = 1, limit: number = 20) =>
   api.get('/admin/users', { params: { page, limit } });
+export const updateUser = (userId: string, data: { role?: 'ADMIN' | 'MEMBER'; isActive?: boolean }) =>
+  api.patch(`/admin/users/${userId}`, data);
 export const deactivateUser = (userId: string) =>
-  api.post(`/admin/users/${userId}/deactivate`);
+  updateUser(userId, { isActive: false });
 export const activateUser = (userId: string) =>
-  api.post(`/admin/users/${userId}/activate`);
+  updateUser(userId, { isActive: true });

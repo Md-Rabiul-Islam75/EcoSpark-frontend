@@ -32,8 +32,8 @@ export default function IdeasPage() {
         isPaid,
       });
       const responseData = response.data?.data || response.data;
-      setIdeas(responseData.data || responseData);
-      setTotal(responseData.pagination?.total || 0);
+      setIdeas(responseData.items || []);
+      setTotal(responseData.meta?.total || 0);
     } catch (error) {
       console.error('Failed to fetch ideas:', error);
     } finally {

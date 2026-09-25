@@ -22,6 +22,10 @@ export default function MemberDashboardPage() {
       try {
         const response = await getUser();
         const userData = response.data?.data || response.data;
+        if (userData.role === 'ADMIN') {
+          router.replace('/admin/dashboard');
+          return;
+        }
         setUser(userData);
       } catch (error) {
         router.push('/login');

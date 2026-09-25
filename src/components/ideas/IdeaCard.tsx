@@ -19,7 +19,7 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
   const imageUrl = idea.images?.[0] || 'https://via.placeholder.com/300x200';
 
   return (
-    <Link href={`/idea/${idea.id}`}>
+    <Link href={`/idea/${idea.slug}`}>
       <div className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden hover:scale-105 transform">
         <div className="relative h-48 bg-gradient-to-br from-gray-200 to-gray-300 overflow-hidden">
           <img

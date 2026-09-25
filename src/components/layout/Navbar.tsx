@@ -43,7 +43,7 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-5 pl-2 border-l border-[#2A4232]">
-                <Link href="/dashboard" className={navLink}>Dashboard</Link>
+                <Link href={user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard'} className={navLink}>Dashboard</Link>
 
                 {user?.role === 'ADMIN' && (
                   <Link
@@ -140,7 +140,7 @@ export default function Navbar() {
 
           {isAuthenticated ? (
             <>
-              <Link onClick={() => setMobileOpen(false)} href="/dashboard" className="rounded-lg px-3 py-3 text-[15px] font-medium text-[#E9EDE7] hover:bg-[#2A4232]">Dashboard</Link>
+              <Link onClick={() => setMobileOpen(false)} href={user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard'} className="rounded-lg px-3 py-3 text-[15px] font-medium text-[#E9EDE7] hover:bg-[#2A4232]">Dashboard</Link>
               {user?.role === 'ADMIN' && (
                 <Link onClick={() => setMobileOpen(false)} href="/admin/dashboard" className="rounded-lg px-3 py-3 text-[15px] font-semibold text-[#E3A23D] hover:bg-[#2A4232]">Admin</Link>
               )}

@@ -9,6 +9,7 @@ export default function MyIdeasPage() {
   const router = useRouter();
   const [ideas, setIdeas] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -20,10 +21,10 @@ export default function MyIdeasPage() {
     async function fetchIdeas() {
       try {
         const response = await getUserIdeas(1, 50);
-        const responseData = response.data?.data || response.data;
-        setIdeas(responseData.items || responseData.data || []);
-      } catch (error) {
-        router.push('/dashboard');
+        const payload = response.data?.data;
+        setIdeas(Array.isArray(payload?.items) ? payload.items : []);
+      } catch {
+        setError('Unable to load your ideas. Please log in again and retry.');
       } finally {
         setLoading(false);
       }
@@ -44,7 +45,13 @@ export default function MyIdeasPage() {
           <p className="text-gray-600">All ideas you have created and submitted.</p>
         </div>
 
-        {ideas.length > 0 ? (
+        {error && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
+
+        {!error && ideas.length > 0 ? (
           <div className="grid gap-4">
             {ideas.map((idea) => (
               <div key={idea.id} className="rounded-lg bg-white p-5 shadow-sm">
@@ -62,9 +69,9 @@ export default function MyIdeasPage() {
               </div>
             ))}
           </div>
-        ) : (
+        ) : !error ? (
           <p className="text-gray-500">You have not created any ideas yet.</p>
-        )}
+        ) : null}
       </div>
     </DashboardLayout>
   );

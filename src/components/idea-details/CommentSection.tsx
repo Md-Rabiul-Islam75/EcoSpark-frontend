@@ -14,6 +14,7 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchComments();
@@ -23,9 +24,9 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
     try {
       const response = await getComments(ideaId, 1, 10);
       const responseData = response.data?.data || response.data;
-      setComments(responseData.data || responseData);
-    } catch (error) {
-      console.error('Failed to fetch comments:', error);
+      setComments(Array.isArray(responseData) ? responseData : responseData.items || []);
+    } catch {
+      setError('Unable to load comments. Please try again.');
     }
   }
 
@@ -40,12 +41,13 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
     if (!newComment.trim()) return;
 
     setLoading(true);
+    setError('');
     try {
       await createComment(ideaId, newComment);
       setNewComment('');
       await fetchComments();
-    } catch (error) {
-      console.error('Failed to create comment:', error);
+    } catch {
+      setError('Unable to post your comment. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -76,6 +78,8 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
           {' '}to comment.
         </p>
       )}
+
+      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
 
       <div className="space-y-4">
         {comments.length > 0 ? (
