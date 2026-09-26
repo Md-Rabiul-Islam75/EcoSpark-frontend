@@ -26,8 +26,10 @@ export default function PaymentSection({ idea }: PaymentSectionProps) {
     try {
       const response = await createPaymentSession(idea.id);
       const responseData = response.data?.data || response.data;
-      // Redirect to Stripe checkout
-      window.location.href = `https://checkout.stripe.com/pay/${responseData.sessionId}`;
+      if (!responseData.url) {
+        throw new Error('Stripe Checkout URL was not returned');
+      }
+      window.location.href = responseData.url;
     } catch (error: any) {
       console.error('Failed to create payment session:', error);
       alert(error.response?.data?.message || 'Failed to process payment');

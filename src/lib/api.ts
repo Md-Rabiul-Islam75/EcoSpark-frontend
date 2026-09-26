@@ -65,6 +65,11 @@ export const getApprovedIdeas = (page: number = 1, limit: number = 12, filters?:
 
 export const getIdea = (ideaId: string) => api.get(`/ideas/${ideaId}`);
 export const createIdea = (data: any) => api.post('/ideas', data);
+export const uploadIdeaImage = (file: File) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  return api.post('/ideas/upload', formData);
+};
 export const updateIdea = (ideaId: string, data: any) => api.patch(`/ideas/${ideaId}`, data);
 export const deleteIdea = (ideaId: string) => api.delete(`/ideas/${ideaId}`);
 export const submitIdea = (ideaId: string) => api.patch(`/ideas/${ideaId}/submit`);
@@ -97,9 +102,8 @@ export const deleteComment = (commentId: string) => api.delete(`/comments/${comm
 
 // Payment APIs
 export const createPaymentSession = (ideaId: string) =>
-  api.post('/payments/create-session', { ideaId });
-export const getUserPayments = () => api.get('/payments');
-export const checkAccess = (ideaId: string) => api.get(`/payments/check-access/${ideaId}`);
+  api.post('/payments/checkout', { ideaId });
+export const getUserPayments = () => api.get('/payments/purchased');
 
 // Newsletter APIs
 export const subscribeNewsletter = (email: string) =>
@@ -109,12 +113,12 @@ export const unsubscribeNewsletter = (email: string) =>
 
 // Blog APIs
 export const getPosts = (page: number = 1, limit: number = 10) =>
-  api.get('/blog', { params: { page, limit } });
-export const getPost = (slug: string) => api.get(`/blog/${slug}`);
-export const createPost = (data: any) => api.post('/blog', data);
-export const updatePost = (postId: string, data: any) => api.patch(`/blog/${postId}`, data);
-export const deletePost = (postId: string) => api.delete(`/blog/${postId}`);
-export const publishPost = (postId: string) => api.post(`/blog/${postId}/publish`);
+  api.get('/blogs', { params: { page, limit } });
+export const getPost = (slug: string) => api.get(`/blogs/${slug}`);
+export const createPost = (data: any) => api.post('/blogs', data);
+export const updatePost = (postId: string, data: any) => api.patch(`/blogs/${postId}`, data);
+export const deletePost = (postId: string) => api.delete(`/blogs/${postId}`);
+export const publishPost = (postId: string) => api.post(`/blogs/${postId}/publish`);
 
 // Admin APIs
 export const getAllIdeas = (page: number = 1, limit: number = 20, filters?: any) =>

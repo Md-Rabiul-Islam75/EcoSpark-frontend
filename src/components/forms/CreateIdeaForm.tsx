@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createIdea, submitIdea } from '@/lib/api';
+import { createIdea, submitIdea, uploadIdeaImage } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
@@ -16,13 +16,14 @@ export default function CreateIdeaForm({
 }: CreateIdeaFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     problemStatement: '',
     proposedSolution: '',
     description: '',
     categoryId: '',
-    images: [] as string[],
+    imageUrl: '',
     isPaid: false,
     price: '',
   });
@@ -33,9 +34,16 @@ export default function CreateIdeaForm({
     setLoading(true);
 
     try {
+      let imageUrl = formData.imageUrl.trim();
+      if (imageFile) {
+        const uploadResponse = await uploadIdeaImage(imageFile);
+        const uploadData = uploadResponse.data?.data || uploadResponse.data;
+        imageUrl = uploadData.url;
+      }
+
       const ideaData = {
         ...formData,
-        images: formData.images || ['https://via.placeholder.com/600x400'],
+        images: imageUrl ? [imageUrl] : [],
         price: formData.isPaid ? parseFloat(formData.price) : null,
       };
 
@@ -135,6 +143,28 @@ export default function CreateIdeaForm({
           className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
           rows={5}
         />
+      </div>
+
+      <Input
+        label="Cover Image URL (optional)"
+        type="url"
+        placeholder="https://example.com/your-idea-image.jpg"
+        value={formData.imageUrl}
+        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+      />
+
+      <div>
+        <label className="mb-2 block font-medium text-gray-700" htmlFor="cover-image">
+          Or select a cover image (max 5 MB)
+        </label>
+        <input
+          id="cover-image"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+          className="block w-full rounded-2xl border border-gray-300 bg-white px-4 py-3 text-sm"
+        />
+        {imageFile && <p className="mt-2 text-sm text-gray-600">Selected: {imageFile.name}</p>}
       </div>
 
       <div className="rounded-2xl border border-[#E7ECE5] bg-[#F8FAF5] p-4">
