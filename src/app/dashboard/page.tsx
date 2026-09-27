@@ -5,11 +5,19 @@ import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import UserDashboard from '@/components/dashboard/UserDashboard';
 import { getUser } from '@/lib/api';
+import { useAuth } from '@/providers/AuthProvider';
 
 export default function MemberDashboardPage() {
   const router = useRouter();
+  const { user: authenticatedUser, isLoading: authLoading } = useAuth();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!authLoading && authenticatedUser?.role === 'ADMIN') {
+      router.replace('/admin/dashboard');
+    }
+  }, [authLoading, authenticatedUser, router]);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -37,7 +45,7 @@ export default function MemberDashboardPage() {
     fetchUser();
   }, [router]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || authLoading || authenticatedUser?.role === 'ADMIN') return <div>Loading...</div>;
   if (!user) return null;
 
   return (

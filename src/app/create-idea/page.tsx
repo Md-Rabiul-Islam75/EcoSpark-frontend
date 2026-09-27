@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CreateIdeaForm from '@/components/forms/CreateIdeaForm';
 import { getCategories } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function CreateIdeaPage() {
   const router = useRouter();
@@ -80,7 +81,13 @@ export default function CreateIdeaPage() {
               </div>
             )}
 
-            <CreateIdeaForm categories={categories} onSuccess={() => router.push('/dashboard')} />
+            <CreateIdeaForm
+              categories={categories}
+              onSuccess={(message) => {
+                toast.success(message);
+                router.push('/dashboard');
+              }}
+            />
           </section>
         </div>
       </div>

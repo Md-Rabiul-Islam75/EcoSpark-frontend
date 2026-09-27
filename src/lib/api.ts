@@ -70,6 +70,8 @@ export const uploadIdeaImage = (file: File) => {
   formData.append('image', file);
   return api.post('/ideas/upload', formData);
 };
+export const uploadIdeaImageUrl = (imageUrl: string) =>
+  api.post('/ideas/upload-url', { imageUrl });
 export const updateIdea = (ideaId: string, data: any) => api.patch(`/ideas/${ideaId}`, data);
 export const deleteIdea = (ideaId: string) => api.delete(`/ideas/${ideaId}`);
 export const submitIdea = (ideaId: string) => api.patch(`/ideas/${ideaId}/submit`);

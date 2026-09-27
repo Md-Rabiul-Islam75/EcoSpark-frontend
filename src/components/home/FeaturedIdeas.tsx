@@ -12,7 +12,7 @@ export default function FeaturedIdeas() {
   useEffect(() => {
     async function fetchIdeas() {
       try {
-        const response = await getApprovedIdeas(1, 6, { sortBy: 'topVoted' });
+        const response = await getApprovedIdeas(1, 6, { sortBy: 'recent' });
         const responseData = response.data?.data || response.data;
         setIdeas(responseData.items || []);
       } catch (error) {

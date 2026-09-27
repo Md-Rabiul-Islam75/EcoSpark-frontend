@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { approveIdea, featureIdea, getAllIdeas, rejectIdea } from '@/lib/api';
 import { useAuth } from '@/providers/AuthProvider';
+import toast from 'react-hot-toast';
 
 export default function AdminIdeasPage() {
   const router = useRouter();
@@ -44,18 +45,33 @@ export default function AdminIdeasPage() {
   }
 
   async function handleApprove(ideaId: string) {
-    await approveIdea(ideaId);
-    await refreshIdeas();
+    try {
+      await approveIdea(ideaId);
+      toast.success('Idea approved successfully');
+      await refreshIdeas();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to approve idea');
+    }
   }
 
   async function handleReject(ideaId: string) {
-    await rejectIdea(ideaId, feedback[ideaId] || 'Rejected by admin');
-    await refreshIdeas();
+    try {
+      await rejectIdea(ideaId, feedback[ideaId] || 'Rejected by admin');
+      toast.success('Idea rejected');
+      await refreshIdeas();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to reject idea');
+    }
   }
 
   async function handleFeature(ideaId: string) {
-    await featureIdea(ideaId);
-    await refreshIdeas();
+    try {
+      await featureIdea(ideaId);
+      toast.success('Idea featured successfully');
+      await refreshIdeas();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to feature idea');
+    }
   }
 
   if (loading) {

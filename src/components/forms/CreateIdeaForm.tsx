@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { createIdea, submitIdea, uploadIdeaImage } from '@/lib/api';
+import { createIdea, submitIdea, uploadIdeaImage, uploadIdeaImageUrl } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 interface CreateIdeaFormProps {
   categories: any[];
-  onSuccess: () => void;
+  onSuccess: (message: string) => void;
 }
 
 export default function CreateIdeaForm({
@@ -39,12 +39,22 @@ export default function CreateIdeaForm({
         const uploadResponse = await uploadIdeaImage(imageFile);
         const uploadData = uploadResponse.data?.data || uploadResponse.data;
         imageUrl = uploadData.url;
+      } else if (imageUrl) {
+        const uploadResponse = await uploadIdeaImageUrl(imageUrl);
+        const uploadData = uploadResponse.data?.data || uploadResponse.data;
+        imageUrl = uploadData.url;
       }
 
       const ideaData = {
-        ...formData,
+        title: formData.title,
+        problemStatement: formData.problemStatement,
+        proposedSolution: formData.proposedSolution,
+        description: formData.description,
+        categoryId: formData.categoryId,
         images: imageUrl ? [imageUrl] : [],
-        price: formData.isPaid ? parseFloat(formData.price) : null,
+        isPaid: formData.isPaid,
+        status: 'DRAFT' as const,
+        ...(formData.isPaid ? { price: parseFloat(formData.price) } : {}),
       };
 
       const response = await createIdea(ideaData);
@@ -54,7 +64,7 @@ export default function CreateIdeaForm({
         await submitIdea(responseData.id);
       }
 
-      onSuccess();
+      onSuccess(submit ? 'Idea submitted for review' : 'Idea saved as draft');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to create idea');
     } finally {
