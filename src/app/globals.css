@@ -58,6 +58,10 @@ textarea,
 select {
   width: 100%;
 }
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+}
 
 input::placeholder,
 textarea::placeholder {

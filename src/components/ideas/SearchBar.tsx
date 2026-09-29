@@ -19,9 +19,13 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          const nextQuery = e.target.value;
+          setQuery(nextQuery);
+          onSearch(nextQuery);
+        }}
         placeholder="Search ideas by title or keywords..."
-        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="flex-1 rounded-lg border border-white/70 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
       />
       <button
         type="submit"

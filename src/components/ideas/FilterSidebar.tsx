@@ -37,23 +37,23 @@ export default function FilterSidebar({
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-bold mb-4">Filters</h3>
-
-      {/* Sort */}
-      <div className="mb-6">
-        <h4 className="font-semibold mb-3">Sort By</h4>
+    <div className="space-y-6">
+      <div>
+        <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-[#708173]">Sort By</h4>
         <div className="space-y-2">
           {(['recent', 'topVoted', 'mostCommented'] as const).map((option) => (
-            <label key={option} className="flex items-center cursor-pointer">
+            <label
+              key={option}
+              className="flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm text-[#344239] transition hover:bg-[#F1F4EC]"
+            >
               <input
-                type="radio"
-                name="sort"
-                checked={sortBy === option}
-                onChange={() => onSortChange(option)}
-                className="mr-2"
+                 type="radio"
+                 name="sort"
+                 checked={sortBy === option}
+                 onChange={() => onSortChange(option)}
+                 className="!h-4 !w-4 shrink-0 accent-[#4F7A5A]"
               />
-              <span className="text-sm">
+              <span className="leading-5">
                 {option === 'recent' && 'Most Recent'}
                 {option === 'topVoted' && 'Top Voted'}
                 {option === 'mostCommented' && 'Most Commented'}
@@ -64,12 +64,12 @@ export default function FilterSidebar({
       </div>
 
       {/* Category */}
-      <div className="mb-6">
-        <h4 className="font-semibold mb-3">Category</h4>
+      <div>
+        <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-[#708173]">Category</h4>
         <select
           value={categoryId}
           onChange={(e) => onCategoryChange(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="h-11 w-full rounded-xl border border-[#D6DED7] bg-white px-3 text-sm text-[#344239] outline-none transition focus:border-[#4F7A5A] focus:ring-2 focus:ring-[#4F7A5A]/20"
         >
           <option value="">All Categories</option>
           {categories.map((cat) => (
@@ -81,36 +81,36 @@ export default function FilterSidebar({
       </div>
 
       {/* Payment Status */}
-      <div className="mb-6">
-        <h4 className="font-semibold mb-3">Type</h4>
+      <div>
+        <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-[#708173]">Type</h4>
         <div className="space-y-2">
-          <label className="flex items-center cursor-pointer">
+          <label className="flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm text-[#344239] transition hover:bg-[#F1F4EC]">
             <input
-              type="radio"
-              name="paid"
-              checked={isPaid === undefined}
-              onChange={() => onPaidChange(undefined)}
-              className="mr-2"
+               type="radio"
+               name="paid"
+               checked={isPaid === undefined}
+               onChange={() => onPaidChange(undefined)}
+               className="!h-4 !w-4 shrink-0 accent-[#4F7A5A]"
             />
-            <span className="text-sm">All Ideas</span>
+            <span>All Ideas</span>
           </label>
-          <label className="flex items-center cursor-pointer">
+          <label className="flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm text-[#344239] transition hover:bg-[#F1F4EC]">
             <input
-              type="radio"
-              name="paid"
-              checked={isPaid === false}
-              onChange={() => onPaidChange(false)}
-              className="mr-2"
+               type="radio"
+               name="paid"
+               checked={isPaid === false}
+               onChange={() => onPaidChange(false)}
+               className="!h-4 !w-4 shrink-0 accent-[#4F7A5A]"
             />
             <span className="text-sm">Free</span>
           </label>
-          <label className="flex items-center cursor-pointer">
+          <label className="flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm text-[#344239] transition hover:bg-[#F1F4EC]">
             <input
-              type="radio"
-              name="paid"
-              checked={isPaid === true}
-              onChange={() => onPaidChange(true)}
-              className="mr-2"
+               type="radio"
+               name="paid"
+               checked={isPaid === true}
+               onChange={() => onPaidChange(true)}
+               className="!h-4 !w-4 shrink-0 accent-[#4F7A5A]"
             />
             <span className="text-sm">Paid</span>
           </label>

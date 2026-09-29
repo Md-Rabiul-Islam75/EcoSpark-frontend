@@ -18,8 +18,17 @@ export default function IdeasPage() {
   const [sortBy, setSortBy] = useState<'recent' | 'topVoted' | 'mostCommented'>('recent');
   const [isPaid, setIsPaid] = useState<boolean | undefined>();
 
+  function handleSearch(query: string) {
+    setPage(1);
+    setSearch(query);
+  }
+
   useEffect(() => {
-    fetchIdeas();
+    const searchTimer = window.setTimeout(() => {
+      fetchIdeas();
+    }, 250);
+
+    return () => window.clearTimeout(searchTimer);
   }, [page, search, categoryId, sortBy, isPaid]);
 
   async function fetchIdeas() {
@@ -36,6 +45,8 @@ export default function IdeasPage() {
       setTotal(responseData.meta?.total || 0);
     } catch (error) {
       console.error('Failed to fetch ideas:', error);
+      setIdeas([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
@@ -54,14 +65,14 @@ export default function IdeasPage() {
       <div className="absolute right-0 top-10 h-[420px] w-[420px] rounded-full bg-[#4F7A5A]/20 blur-[140px]" />
       <div className="absolute bottom-0 left-1/3 h-60 w-60 rounded-full bg-[#7FA687]/10 blur-[100px]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24">
+      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
 
         <p className="uppercase tracking-[0.25em] text-sm font-bold text-[#8DB89A]">
           Browse the Community
         </p>
 
         <h1
-          className="mt-4 max-w-3xl text-5xl md:text-6xl font-bold leading-tight text-white"
+          className="mt-4 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
           style={{ fontFamily: 'var(--font-fraunces, serif)' }}
         >
           Discover Inspiring
@@ -77,7 +88,7 @@ export default function IdeasPage() {
         {/* Search */}
 
         <div className="mt-10 max-w-3xl">
-          <SearchBar onSearch={setSearch} />
+          <SearchBar onSearch={handleSearch} />
         </div>
 
         {/* Popular Categories */}
@@ -112,10 +123,10 @@ export default function IdeasPage() {
 
       <div className="mx-auto max-w-7xl px-6">
 
-        <div className="grid grid-cols-2 gap-5 rounded-3xl bg-white p-8 shadow-xl md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 rounded-3xl bg-white p-4 shadow-xl sm:gap-5 sm:p-8 md:grid-cols-4">
 
           <div className="text-center">
-            <p className="text-4xl font-bold text-[#16281F]">
+              <p className="text-3xl font-bold text-[#16281F] sm:text-4xl">
               {total}
             </p>
             <p className="mt-2 text-sm text-[#708173]">
@@ -124,7 +135,7 @@ export default function IdeasPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-4xl font-bold text-[#16281F]">
+              <p className="text-3xl font-bold text-[#16281F] sm:text-4xl">
               120+
             </p>
             <p className="mt-2 text-sm text-[#708173]">
@@ -133,7 +144,7 @@ export default function IdeasPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-4xl font-bold text-[#16281F]">
+              <p className="text-3xl font-bold text-[#16281F] sm:text-4xl">
               4.8★
             </p>
             <p className="mt-2 text-sm text-[#708173]">
@@ -142,7 +153,7 @@ export default function IdeasPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-4xl font-bold text-[#16281F]">
+              <p className="text-3xl font-bold text-[#16281F] sm:text-4xl">
               1K+
             </p>
             <p className="mt-2 text-sm text-[#708173]">
@@ -158,7 +169,7 @@ export default function IdeasPage() {
 
     {/* ================= CONTENT ================= */}
 
-    <section className="mx-auto max-w-7xl px-6 py-16">
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
 
@@ -166,7 +177,7 @@ export default function IdeasPage() {
 
         <aside className="lg:col-span-1">
 
-          <div className="sticky top-24 rounded-3xl border border-[#E7ECE5] bg-white p-7 shadow-sm">
+          <div className="rounded-3xl border border-[#E7ECE5] bg-white p-4 shadow-sm sm:p-6 lg:sticky lg:top-24 lg:p-7">
 
             <div className="mb-6 flex items-center justify-between">
 
