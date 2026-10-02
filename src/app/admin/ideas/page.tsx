@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
@@ -7,7 +8,7 @@ import { approveIdea, featureIdea, getAllIdeas, rejectIdea } from '@/lib/api';
 import { useAuth } from '@/providers/AuthProvider';
 import toast from 'react-hot-toast';
 
-export default function AdminIdeasPage() {
+function AdminIdeasContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
@@ -143,5 +144,13 @@ export default function AdminIdeasPage() {
         )}
       </div>
     </DashboardLayout>
+  );
+}
+
+export default function AdminIdeasPage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading admin review queue...</div>}>
+      <AdminIdeasContent />
+    </Suspense>
   );
 }
