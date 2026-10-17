@@ -27,8 +27,8 @@ function LoginContent() {
 
     try {
       const requestedRedirect = searchParams.get('redirectTo') || searchParams.get('next');
-      const redirectTo = requestedRedirect?.startsWith('/') ? requestedRedirect : '/dashboard';
-      const response = await login(formData.email, formData.password, redirectTo);
+      const safeRedirect = requestedRedirect?.startsWith('/') ? requestedRedirect : undefined;
+      const response = await login(formData.email, formData.password, safeRedirect);
       const { user, accessToken, refreshToken, redirectTo: responseRedirectTo } =
         response.data.data;
 
@@ -37,7 +37,8 @@ function LoginContent() {
       localStorage.setItem('user', JSON.stringify(user));
       setAuthUser(user, accessToken, refreshToken);
 
-      router.replace(responseRedirectTo || '/dashboard');
+      const fallbackRoute = user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
+      router.replace(responseRedirectTo || safeRedirect || fallbackRoute);
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'Login failed');
     } finally {

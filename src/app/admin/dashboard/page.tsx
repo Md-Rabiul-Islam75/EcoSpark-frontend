@@ -1,45 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import AdminDashboard from '@/components/dashboard/AdminDashboard';
-import { getUser } from '@/lib/api';
+import { useAuth } from '@/providers/AuthProvider';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  console.log('AdminDashboardPage rendered');
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      router.push('/login');
-      return;
+    if (!isLoading && !user) {
+      router.replace('/login?redirectTo=/admin/dashboard');
+    } else if (!isLoading && user?.role !== 'ADMIN') {
+      router.replace('/dashboard');
     }
+  }, [isLoading, router, user]);
 
-    async function fetchUser() {
-      try {
-        const response = await getUser();
-        const userData = response.data?.data || response.data;
-        if (userData.role !== 'ADMIN') {
-          router.push('/dashboard');
-          return;
-        }
-        setUser(userData);
-      } catch (error) {
-        router.push('/login');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchUser();
-  }, [router]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!user) return null;
+  if (isLoading || !user || user.role !== 'ADMIN') return <div>Loading...</div>;
 
   return (
     <DashboardLayout>
