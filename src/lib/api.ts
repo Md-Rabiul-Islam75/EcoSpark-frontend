@@ -42,8 +42,8 @@ api.interceptors.response.use(
 
 // Auth APIs
 export const register = (data: any) => api.post('/auth/register', data);
-export const login = (email: string, password: string) =>
-  api.post('/auth/login', { email, password });
+export const login = (email: string, password: string, redirectTo?: string) =>
+  api.post('/auth/login', { email, password, redirectTo });
 export const logout = () => api.post('/auth/logout');
 export const refreshToken = (token: string) =>
   api.post('/auth/refresh-token', { refreshToken: token });

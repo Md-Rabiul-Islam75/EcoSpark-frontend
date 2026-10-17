@@ -26,15 +26,18 @@ function LoginContent() {
     setLoading(true);
 
     try {
-      const response = await login(formData.email, formData.password);
-      const responseData = response.data?.data || response.data;
-      setAuthUser(responseData.user, responseData.accessToken, responseData.refreshToken);
+      const requestedRedirect = searchParams.get('redirectTo') || searchParams.get('next');
+      const redirectTo = requestedRedirect?.startsWith('/') ? requestedRedirect : '/dashboard';
+      const response = await login(formData.email, formData.password, redirectTo);
+      const { user, accessToken, refreshToken, redirectTo: responseRedirectTo } =
+        response.data.data;
 
-      const redirectTo = searchParams.get('next');
-      const fallbackRoute = responseData.user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
-      const targetRoute = redirectTo?.startsWith('/') ? redirectTo : fallbackRoute;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      setAuthUser(user, accessToken, refreshToken);
 
-      router.replace(targetRoute);
+      router.replace(responseRedirectTo || '/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'Login failed');
     } finally {

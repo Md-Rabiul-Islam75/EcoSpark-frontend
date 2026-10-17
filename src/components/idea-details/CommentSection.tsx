@@ -34,7 +34,7 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
     e.preventDefault();
 
     if (!isAuthenticated) {
-      window.location.href = '/login';
+      window.location.href = `/login?redirectTo=${encodeURIComponent(window.location.pathname)}`;
       return;
     }
 
@@ -72,7 +72,10 @@ export default function CommentSection({ ideaId }: CommentSectionProps) {
         </form>
       ) : (
         <p className="mb-4 text-gray-600">
-          <a href="/login" className="text-blue-600 hover:underline">
+          <a
+            href={`/login?redirectTo=${encodeURIComponent(window.location.pathname)}`}
+            className="text-blue-600 hover:underline"
+          >
             Log in
           </a>
           {' '}to comment.
