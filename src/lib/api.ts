@@ -2,6 +2,8 @@ import axios from 'axios';
 import { API_BASE_URL } from './constants';
 import { tokenStorage } from './storage';
 
+const ADMIN_USERS_URL = `${API_BASE_URL.replace(/\/api\/v1\/?$/, '')}/api/admin-users`;
+
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -142,7 +144,7 @@ export const getDashboardStats = () => api.get('/admin/stats');
 export const getTopVotedIdeas = (limit: number = 5) =>
   api.get('/ideas', { params: { page: 1, limit, sortBy: 'topVoted' } });
 export const getAllUsers = (page: number = 1, limit: number = 20) =>
-  api.get('/admin/users', { params: { page, limit } });
+  api.get(ADMIN_USERS_URL, { params: { page, limit } });
 export const updateUser = (userId: string, data: { role?: 'ADMIN' | 'MEMBER'; isActive?: boolean }) =>
   api.patch(`/admin/users/${userId}`, data);
 export const deactivateUser = (userId: string) =>
