@@ -51,10 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(currentUser);
         localStorage.setItem('user', JSON.stringify(currentUser));
       } catch {
-        setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
       } finally {
         setIsLoading(false);
       }
