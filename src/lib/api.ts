@@ -3,6 +3,7 @@ import { API_BASE_URL } from './constants';
 import { tokenStorage } from './storage';
 
 const ADMIN_USERS_URL = `${API_BASE_URL.replace(/\/api\/v1\/?$/, '')}/api/admin-users`;
+const LEGACY_ROUTES_URL = `${API_BASE_URL.replace(/\/api\/v1\/?$/, '')}/api/legacy-routes`;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -111,7 +112,7 @@ export const getUserPayments = () => api.get('/payments/purchased');
 
 // Newsletter APIs
 export const subscribeNewsletter = (email: string) =>
-  api.post('/newsletter/subscribe', { email });
+  api.post(LEGACY_ROUTES_URL, { email }, { params: { route: 'newsletter-subscribe' } });
 export const unsubscribeNewsletter = (email: string) =>
   api.post('/newsletter/unsubscribe', { email });
 
@@ -126,8 +127,9 @@ export const publishPost = (postId: string) => api.post(`/blogs/${postId}/publis
 
 // Admin APIs
 export const getAllIdeas = (page: number = 1, limit: number = 20, filters?: any) =>
-  api.get('/admin/ideas', {
+  api.get(LEGACY_ROUTES_URL, {
     params: {
+      route: 'admin-ideas',
       page,
       limit,
       ...filters,
@@ -140,7 +142,8 @@ export const rejectIdea = (ideaId: string, feedback: string) =>
   api.post(`/admin/ideas/${ideaId}/reject`, { feedback });
 export const featureIdea = (ideaId: string) =>
   api.post(`/admin/ideas/${ideaId}/feature`);
-export const getDashboardStats = () => api.get('/admin/stats');
+export const getDashboardStats = () =>
+  api.get(LEGACY_ROUTES_URL, { params: { route: 'admin-stats' } });
 export const getTopVotedIdeas = (limit: number = 5) =>
   api.get('/ideas', { params: { page: 1, limit, sortBy: 'topVoted' } });
 export const getAllUsers = (page: number = 1, limit: number = 20) =>
