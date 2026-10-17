@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUser } from '@/lib/api';
 
 interface User {
   id: string;
@@ -38,25 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-      setIsLoading(false);
-      return;
-    }
-
-    async function syncUser() {
-      try {
-        const response = await getUser();
-        const currentUser = response.data?.data || response.data;
-        setUser(currentUser);
-        localStorage.setItem('user', JSON.stringify(currentUser));
-      } catch {
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    syncUser();
+    setIsLoading(false);
   }, []);
 
   const login = (userData: User, accessToken: string, refreshToken: string) => {
