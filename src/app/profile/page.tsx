@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
-import { getUser, getUserStats, updateProfile } from '@/lib/api';
+import { updateProfile } from '@/lib/api';
 import { useAuth } from '@/providers/AuthProvider';
 
 type ProfileData = {
@@ -17,7 +17,7 @@ type ProfileData = {
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { updateUser } = useAuth();
+  const { user, isLoading: authLoading, updateUser } = useAuth();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [stats, setStats] = useState<{ ideas: number; votes: number; comments: number; payments: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,43 +33,23 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      router.push('/login');
+    if (authLoading) return;
+
+    if (!user) {
+      router.replace('/login?redirectTo=/profile');
       return;
     }
 
-    async function fetchProfile() {
-      try {
-        const [profileResponse, statsResponse] = await Promise.all([getUser(), getUserStats()]);
-        const profileData = profileResponse.data?.data || profileResponse.data;
-        const statsData = statsResponse.data?.data || statsResponse.data;
-
-        setProfile(profileData);
-        updateUser({
-          id: profileData.id,
-          name: profileData.name,
-          email: profileData.email,
-          role: profileData.role,
-          profileImage: profileData.profileImage || undefined,
-        });
-        setStats(statsData);
-        setFormData({
-          name: profileData.name || '',
-          email: profileData.email || '',
-          profileImage: profileData.profileImage || '',
-          bio: profileData.bio || '',
-          password: '',
-        });
-      } catch (fetchError) {
-        router.push('/login');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProfile();
-  }, [router]);
+    setProfile(user);
+    setFormData({
+      name: user.name || '',
+      email: user.email || '',
+      profileImage: user.profileImage || '',
+      bio: '',
+      password: '',
+    });
+    setLoading(false);
+  }, [authLoading, router, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
